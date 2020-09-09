@@ -1,109 +1,76 @@
-import {updateGameScore, decideGameWinner, printScore} from './main'
+import {decimalToRoman, addRoman} from './main'
 import {expect} from 'chai';
 import 'mocha';
 
-describe('Player 1', () => {
-  it('should win the game when the score is 4-0', () => {
+describe('Roman to Number', () => {
+  it('should return Roman numerals (I)', () => {
     // given
-    const player1Points = 4;
-    const player2Points = 0;
+    const number = 1;
 
     // when
-    const game = updateGameScore(player1Points, player2Points);
-    const winner = decideGameWinner(game);
+    const roman = decimalToRoman(number);
 
     // then
-    expect(winner).equal('Player 1');
+    expect(roman).equal('I');
   });
 
-  it('should win the game when the score is 5-3', () => {
+  it('should return Roman numerals (VI)', () => {
     // given
-    const player1Points = 5;
-    const player2Points = 3;
+    const number = 6;
 
     // when
-    const game = updateGameScore(player1Points, player2Points);
-    const winner = decideGameWinner(game);
+    const roman = decimalToRoman(number);
 
     // then
-    expect(winner).equal('Player 1');
+    expect(roman).equal('VI');
   });
+
+  it('should return Roman numerals (CM)', () => {
+    // given
+    const number = 900;
+
+    // when
+    const roman = decimalToRoman(number);
+
+    // then
+    expect(roman).equal('CM');
+  });
+
+  it('should return Roman numerals (IX) instead of (VIIII)', () => {
+    // given
+    const number = 9;
+
+    // when
+    const roman = decimalToRoman(number);
+
+    // then
+    expect(roman).equal('IX');
+  });
+
 });
 
-describe('Player 2', () => {
-  it('should win the game when the score is 4-0', () => {
+describe('Calculation', () => {
+  it('I + I should be II', () => {
     // given
-    const player1Points = 0;
-    const player2Points = 4;
+    const romanNumber = decimalToRoman(1);
+    const romanNumber2 = decimalToRoman(1);
 
     // when
-    const game = updateGameScore(player1Points, player2Points);
-    const winner = decideGameWinner(game);
+    const roman = addRoman(romanNumber, romanNumber2);
 
     // then
-    expect(winner).equal('Player 2');
+    expect(roman).equal('II');
   });
 
-  it('should win the game when the score is 3-5', () => {
+  it('IV + IV should be VIII', () => {
     // given
-    const player1Points = 3;
-    const player2Points = 5;
+    const romanNumber = decimalToRoman(4);
+    const romanNumber2 = decimalToRoman(4);
 
     // when
-    const game = updateGameScore(player1Points, player2Points);
-    const winner = decideGameWinner(game);
+    const roman = addRoman(romanNumber, romanNumber2);
 
     // then
-    expect(winner).equal('Player 2');
-  });
-});
-
-describe('Game', () => {
-  it('should print thirty - thirty when the score is 2-2', () => {
-    // given
-    const player1Points = 2;
-    const player2Points = 2;
-
-    // when
-    const score = printScore([player1Points, player2Points]);
-
-    // then
-    expect(score).equal('thirty - thirty');
-  });
-
-  it('should print deuce when the score is 3-3', () => {
-    // given
-    const player1Points = 3;
-    const player2Points = 3;
-
-    // when
-    const score = printScore([player1Points, player2Points]);
-
-    // then
-    expect(score).equal('deuce');
-  });
-
-  it('should print advantage player 1 when the score is 4-3', () => {
-    // given
-    const player1Points = 4;
-    const player2Points = 3;
-
-    // when
-    const score = printScore([player1Points, player2Points]);
-
-    // then
-    expect(score).equal('advantage player 1');
-  });
-
-  it('should print advantage player 2 when the score is 5-6', () => {
-    // given
-    const player1Points = 5;
-    const player2Points = 6;
-
-    // when
-    const score = printScore([player1Points, player2Points]);
-
-    // then
-    expect(score).equal('advantage player 2');
+    expect(roman).equal('VIII');
   });
 });
