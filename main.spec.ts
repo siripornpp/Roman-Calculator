@@ -36,7 +36,7 @@ describe('Roman to Number', () => {
     expect(roman).equal('CM');
   });
 
-  it('should return Roman numerals (IX) instead of (VIIII)', () => {
+  it('should return Roman numerals (VIII)', () => {
     // given
     const number = 9;
 
