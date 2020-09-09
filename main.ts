@@ -1,98 +1,73 @@
-export function updateGameScore(player1Score: number, player2Score: number): Game {
-    return new Game(player1Score, player2Score)
+export function decimalToRoman(num: number) {
+  if (isNaN(num)) return NaN;
+  var digits = String(+num).split(""),
+    key = [
+      "",
+      "C",
+      "CC",
+      "CCC",
+      "CD",
+      "D",
+      "DC",
+      "DCC",
+      "DCCC",
+      "CM",
+      "",
+      "X",
+      "XX",
+      "XXX",
+      "XL",
+      "L",
+      "LX",
+      "LXX",
+      "LXXX",
+      "XC",
+      "",
+      "I",
+      "II",
+      "III",
+      "IV",
+      "V",
+      "VI",
+      "VII",
+      "VIII",
+      "IX",
+    ],
+    roman = "",
+    i = 3;
+  while (i--) roman = (key[+digits.pop() + i * 10] || "") + roman;
+  return Array(+digits.join("") + 1).join("M") + roman;
 }
 
-export function decideGameWinner(game: Game): string {
-    return game.decideGameWinner()
+export function romanToDecimal(string: string) {
+  var str = string.toUpperCase(),
+    validator = /^M*(?:D?C{0,3}|C[MD])(?:L?X{0,3}|X[CL])(?:V?I{0,3}|I[XV])$/,
+    token = /[MDLV]|C[MD]?|X[CL]?|I[XV]?/g,
+    key = {
+      M: 1000,
+      CM: 900,
+      D: 500,
+      CD: 400,
+      C: 100,
+      XC: 90,
+      L: 50,
+      XL: 40,
+      X: 10,
+      IX: 9,
+      V: 5,
+      IV: 4,
+      I: 1,
+    },
+    num = 0,
+    m;
+  if (!(str && validator.test(str))) return false;
+  while ((m = token.exec(str))) num += key[m[0]];
+  return num;
 }
 
-export function printScore(scoreArray: Array<number>): string {
-    const scoreNameArray = ['love', 'fifteen','thirty', 'forty']
-    if (scoreArray.length == 2){
-        const player1Points = scoreArray[0]
-        const player2Points = scoreArray[1]
-        //check can deuce
-        if (player1Points>=3 && player2Points>=3){
-            if (player1Points == player2Points){
-                return 'deuce'
-            } else if (player1Points > player2Points){
-                return 'advantage player 1'
-            } else {
-                return 'advantage player 2'
-            }
-        } else {
-            return `${scoreNameArray[player1Points]} - ${scoreNameArray[player2Points]}`
-        }
-    }
-    return 'Error'
-}
+export function addRoman(str1: string, str2: string) {
+  const num1 = romanToDecimal(str1);
+  const num2 = romanToDecimal(str2);
 
-class Player {
-    public score: number;
-
-    constructor(score: number) {
-        this.score = score
-    }
-
-    getScore(): number {
-        return this.score
-    }
-
-    setScore(score: number) {
-        this.score = score
-    }
-
-    isMoreThan(score: number): boolean {
-        return this.score > score
-    }
-
-    canDeuce(): boolean {
-        return this.score > 2
-    }
-}
-
-
-class Game {
-    public player1: Player
-    public player2: Player
-
-    constructor(player1Score: number, player2Score: number) {
-        this.player1 = new Player(player1Score)
-        this.player2 = new Player(player2Score)
-    }
-
-    getPlayerScore(): [number, number] {
-        return [this.player1.getScore(), this.player2.getScore()]
-    }
-
-    setPlayerScore(player1Score: number, player2Score: number) {
-        if (player1Score) {
-            this.player1.setScore(player1Score)
-        }
-        if (player2Score) {
-            this.player2.setScore(player2Score)
-        }
-    }
-
-    decideGameWinner(): string {
-
-        if (this.player1.canDeuce() && this.player2.canDeuce()) {
-            if (this.player1.getScore() - this.player2.getScore() > 1){
-                return 'Player 1'
-            } else if (this.player2.getScore() - this.player1.getScore() > 1){
-                return 'Player 2'
-            } else {
-                return 'Unfinish'
-            }
-        } else {
-            if (this.player1.getScore()==4 && this.player2.getScore() < 3){
-                return 'Player 1'
-            } else if (this.player2.getScore()==4 && this.player1.getScore() < 3) {
-                return 'Player 2'
-            } else {
-                return 'Wrong Score'
-            }
-        }
-        return 'Error'
-    }
+  return decimalToRoman(this.num1 + this.num2);
 }
