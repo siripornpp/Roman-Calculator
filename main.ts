@@ -1,5 +1,4 @@
-export function decimalToRoman(num: number) {
-  if (isNaN(num)) return NaN;
+export function decimalToRoman(num: number): string {
   var digits = String(+num).split(""),
     key = [
       "",
@@ -39,7 +38,7 @@ export function decimalToRoman(num: number) {
   return Array(+digits.join("") + 1).join("M") + roman;
 }
 
-export function romanToDecimal(string: string) {
+export function romanToDecimal(string: string): number {
   var str = string.toUpperCase(),
     validator = /^M*(?:D?C{0,3}|C[MD])(?:L?X{0,3}|X[CL])(?:V?I{0,3}|I[XV])$/,
     token = /[MDLV]|C[MD]?|X[CL]?|I[XV]?/g,
@@ -58,9 +57,7 @@ export function romanToDecimal(string: string) {
       IV: 4,
       I: 1,
     },
-    num = 0,
-    m;
-  if (!(str && validator.test(str))) return false;
+    num = 0, m;
   while ((m = token.exec(str))) num += key[m[0]];
   return num;
 }
@@ -69,5 +66,5 @@ export function addRoman(str1: string, str2: string) {
   const num1 = romanToDecimal(str1);
   const num2 = romanToDecimal(str2);
 
-  return decimalToRoman(this.num1 + this.num2);
+  return decimalToRoman(num1 + num2);
 }
